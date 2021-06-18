@@ -15,7 +15,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
 
-    # 「headless_chromeのno-sandboxオプション」を追加する
+
     RSpec.configure do |config|
       config.before(:each, type: :system) do
         driven_by(:selenium_chrome)
