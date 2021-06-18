@@ -1,24 +1,29 @@
 # README
+User
+user_id          integer
+name             string
+email            string
+password_digest  string
+company          string
+department       string
+gender           integer
+birthday         date
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Task
+task_id  integer
+title    string
+status   integer
+primary  integer
+content  text
+enddate  date
+user_id  integer
 
-Things you may want to cover:
+Label
+label_id    integer
+label_name  string
 
-* Ruby version
+Labeling
+label_id  integer
+task_id   integer
 
-* System dependencies
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
