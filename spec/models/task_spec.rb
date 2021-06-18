@@ -1,4 +1,10 @@
 require 'rails_helper'
+
+before do
+  FactoryBot.create(:task)
+  FactoryBot.create(:second_task)
+end
+
 describe 'バリデーションのテスト' do
   context 'タスクのタイトルが空の場合' do
     it 'バリデーションにひっかる' do
@@ -18,5 +24,6 @@ describe 'バリデーションのテスト' do
       expect(task).to be_valid
     end
   end
+  
 end
 
