@@ -8,6 +8,7 @@
   | password_digest | string  |
   | company         | string  |
   | department      | string  |
+  | admin           | string  |
   | gender          | integer |
   | birthday        | date    |
  
