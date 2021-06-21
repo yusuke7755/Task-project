@@ -205,4 +205,6 @@ ja:
       short: "%m/%d %H:%M"
     pm: 午後
   view:
-    sample: サンプル
+    tasks: タスク
+      title: タイトル
+      content: 内容
