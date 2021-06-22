@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-#before do
-  #FactoryBot.create(:task)
-  #FactoryBot.create(:second_task)
-#end
+before do
+  FactoryBot.create(:task)
+  FactoryBot.create(:second_task)
+end
 
 describe 'バリデーションのテスト' do
 
