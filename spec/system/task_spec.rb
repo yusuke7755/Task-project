@@ -6,7 +6,6 @@ describe 'タスク管理機能', type: :system do
     FactoryBot.create(:second_task)
   end
   
-  #let!(:task) { FactoryBot.create(:task, title: 'task') }
   before do
     # 「一覧画面に遷移した場合」や「タスクが作成日時の降順に並んでいる場合」など、contextが実行されるタイミングで、before内のコードが実行される
     visit tasks_path
@@ -33,7 +32,6 @@ describe 'タスク管理機能', type: :system do
     context 'タスクが作成日時の降順に並んでいる場合' do
       it '新しいタスクが一番上に表示される' do
         # タスク一覧を配列として取得するため、View側でidを振っておく
-        #task_list = Task.all('.task_row')
         task_list = all('.task_row')
         expect(task_list[0]).to have_content 'タイトル２'
         expect(task_list[1]).to have_content 'タイトル１'
