@@ -11,14 +11,29 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="task form-group">
     <%= form.label :title %>
     <%= form.text_field :title %>
   </div>
 
-  <div class="field">
+  <div class="task form-group">
     <%= form.label :content %>
     <%= form.text_area :content %>
+  </div>
+
+  <div class="task form-group">
+    <%= form.label :Priotity %>
+    <%= form.select :priority, options_for_select([[''],['高'], ['中'], ['低']]), id: "priority", class: "form-control"  %>
+  </div>
+
+  <div class="task form-group">
+    <%= form.label :Status %>
+    <%= form.select :status, options_for_select([[''],['未着手'], ['着手中'], ['完了']]), id: "status", class: "form-control"  %>
+  </div>
+
+  <div class="task form-group">
+    <%= form.label :Deadline %>
+    <%= form.date_select :deadline, id: "終了期限", class: "form-control"%>
   </div>
 
   <div class="actions">
