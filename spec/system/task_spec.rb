@@ -6,7 +6,7 @@ describe 'タスク管理機能', type: :system do
     FactoryBot.create(:second_task)
   end
   
-  let!(:task) { FactoryBot.create(:task, title: 'task') }
+  #let!(:task) { FactoryBot.create(:task, title: 'task') }
   before do
     # 「一覧画面に遷移した場合」や「タスクが作成日時の降順に並んでいる場合」など、contextが実行されるタイミングで、before内のコードが実行される
     visit tasks_path
