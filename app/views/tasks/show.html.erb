@@ -8,6 +8,17 @@
   <strong>内容:</strong>
   <%= @task.content %>
 </p>
+<p>
+  <strong>優先順位:</strong>
+  <%= @task.priority_i18n %>
+</p>
+<p>
+  <strong>ステータス:</strong>
+  <%= @task.status_i18n %>
+</p>
+<p>
+  <strong>終了期限:</strong>
+  <%= @task.deadline %>
+</p>
 
-<%= link_to '編集', edit_task_path(@task) %> |
-<%= link_to '戻る', tasks_path %>
+<p><%= link_to '編集', edit_task_path(@task) %> | <%= link_to '戻る', tasks_path %></p>
