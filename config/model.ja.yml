@@ -208,3 +208,6 @@ ja:
     tasks: タスク
       title: タイトル
       content: 内容
+      status: ステータス
+      priority: 優先順位
+      deadline: 終了期限

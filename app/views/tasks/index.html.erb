@@ -1,35 +1,50 @@
 <p id="notice"><%= notice %></p>
 <h1>タスク一覧</h1>
-<nav class="navbar navbar-light bg-light">
-<%= form_with url: tasks_path, method: :get, html: {class: "form-inline"} , local: true do |form| %>
-  <%= form.label :title, "タイトル" %>
-  <%= form.text_field :title, class: "form-control mr-sm-2" %>
-  <%= form.label :status, "ステータス" %>
-  <%= form.select :status, options_for_select([[''],['未着手'], ['着手中'], ['完了']]), class: "form-control mr-sm-2"%>
-  <%= form.submit value: "search", class: "btn btn-outline-success my-2 my-sm-0", type: "submit" %>
-<% end %>
-</nav>
-<p><%= link_to "終了期限ごとに並び替える", tasks_path(sort_expired: "true") , value: "dater", class: "badge badge-primary"%> ||
-  <%= link_to "優先順位ごとに並び替え", tasks_path(sort_priority: "true"), class: "badge badge-success" %>
+<div class = "container-fluid">
+  <ul class="row">
+    <li>タスク検索<%= form_with(model: Task.new, method: :get, local: true, url: tasks_path) do |form| %>
+      <%= form.text_field :title %>
+    <li/>
+    <li>ステータス検索</li>
+    <li><%= form.select :status, [["未着手", "0"], ["進行中", "1"], ["完了", "2"]], include_blank: "選択して下さい" %></li>
+  
+    <li>  
+    <button type="button" class="btn btn-dark"><%= form.submit '検索', title: nil %></button>
+    </li>  
+      <% end %>  
+  </ul>
+</div>
+<P>
+<button type="button" class="btn btn-warning btn-sm"><%= link_to 'タスク作成', new_task_path %></button>
+</P>
+<p>
+<button type="button" class="btn btn-info btn-sm"><%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %></button>
+<button type="button" class="btn btn-info btn-sm"><%= link_to "優先度高い順でソート", tasks_path(sort_priority_high: "true") %></button>
 </p>
-<table>
+<table class="col-md-12">
   <thead>
     <tr>
-      <th scope="col">タイトル</th>
-      <th scope="col">内容</th>
-      <th scope="col">優先度</th>
-      <th scope="col">ステータス</th>
-      <th scope="col">終了期限</th>
+
+      <th class="col-md-2">タスク</th>
+      <th class="col-md-3" >詳細</th>
+      <th class="col-md-2">期限</th>
+      <th class="col-md-1">ステータス</th>
+      <th class="col-md-1">優先度</th>
+      <th class="col-md-1">閲覧</th>
+      <th class="col-md-1">編集</th>
+      <th class="col-md-1">削除</th>
+
+
     </tr>
   </thead>
   <tbody>
     <% @tasks.each do |task| %>
       <tr>
-        <td class = 'task_row' ><%= task.title %></td>
+        <td class = 'task_list' ><%= task.title %></td>
         <td><%= task.content %></td>
-        <td class="priority_row"><%= task.priority %></td>
-        <td><%= task.status %></td>
-        <td class="deadline_row"><%= task.deadline %></td>
+        <td><%= task.deadline %></td>
+        <td><%= task.status_i18n %></td>
+        <td><%= task.priority_i18n %></td>
         <td><%= link_to '詳細', task %></td>
         <td><%= link_to '編集', edit_task_path(task) %></td>
         <td><%= link_to '削除', task, method: :delete, data: { confirm: '削除しますか?' } %></td>
@@ -40,4 +55,3 @@
 
 <br>
 
-<%= link_to '新規登録', new_task_path %>

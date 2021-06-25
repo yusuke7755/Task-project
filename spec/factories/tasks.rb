@@ -14,27 +14,27 @@ FactoryBot.define do
 
       # 作成するテストデータの名前を「task」とします
     factory :task do
-      name { 'タイトル１' }
-      detail { 'コンテント１' }
-      deadline { DateTime.now }
+      title { 'タイトル１' }
+      content { 'コンテント１' }
       status {'completed'}
       priority {'high'}
+      deadline { DateTime.now }
     end
     # 作成するテストデータの名前を「second_task」とします
     factory :second_task, class: Task do
-      name { 'タイトル２' }
-      detail { 'コンテント２' }
-      deadline { DateTime.tomorrow }
+      title { 'タイトル２' }
+      content { 'コンテント２' }
       status {'not_yet'}
       priority {'middle'}
+      deadline { DateTime.tomorrow }
     end
 
     factory :third_task, class: Task do
-      name { 'タイトル3' }
-      detail { 'コンテント3' }
-      deadline { DateTime.now.since(5.days) }
+      title { 'タイトル3' }
+      content { 'コンテント3' }
       status {'in_progress'}
       priority {'low'}
+      deadline { DateTime.now.since(5.days) }
     end  
 
 end

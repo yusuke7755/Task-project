@@ -10,6 +10,9 @@ ja:
         task:
           title: タイトル
           content: 内容
+          status: ステータス
+          priotity: 優先順位
+          deadline: 終了期限
   # 全てのmodelで共通して使用するattributesを定義
   attributes:
     created_at: 作成日
