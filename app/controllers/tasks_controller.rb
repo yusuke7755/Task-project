@@ -1,21 +1,38 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[ show edit update destroy ]
-  PER = 5
+
   # GET /tasks or /tasks.json
   def index
-    
     @tasks = Task.all
     if params[:sort_expired]
-			@tasks = @tasks.order(deadline: :desc).page(params[:page]).per(PER)
-    elsif params[:sort_priority_high]
-      @tasks = @tasks.order(priority: :asc).page(params[:page]).per(PER)
-    elsif params[:search]
-      @tasks = Task.search_tasks(params[:search]).page(params[:page]).per(PER)
+			@tasks = @tasks.order(deadline: :desc).page params[:page]
     else
-      @tasks = @tasks.order(created_at: :desc).page(params[:page]).per(PER)
+      @tasks = @tasks.order(created_at: :desc).page params[:page]
     end
 
-  end
+    if params[:sort_priority_high]
+      @tasks = @tasks.order(priority: :asc).page params[:page]
+    else
+      @tasks = @tasks.order(created_at: :desc).page params[:page]
+    end
+
+    if params[:task].present?
+      if params[:task][:title].present? && params[:task][:status].present?
+        #両方title and statusが成り立つ検索結果を返す
+        @tasks = @tasks.where('title LIKE ?', "%#{params[:task][:title]}%").page params[:page]
+        @tasks =@tasks.where(status: params[:task][:status]).page params[:page]
+        
+        #渡されたパラメータがtask titleのみだったとき
+      elsif params[:task][:title].present?
+        @tasks = @tasks.where('title LIKE ?', "%#{params[:task][:title]}%").page params[:page]
+      
+       #渡されたパラメータがステータスのみだったとき
+      elsif params[:task][:status].present?
+        @tasks =@tasks.where(status: params[:task][:status]).page params[:page]
+      end
+    end
+
+   end
 
   # GET /tasks/1 or /tasks/1.json
   def show

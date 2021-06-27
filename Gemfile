@@ -41,8 +41,6 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 5.0'
   gem 'factory_bot_rails'
-  gem 'database_cleaner'
-  gem 'faker'
 end
 
 group :development do
@@ -58,8 +56,6 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'webdrivers'
-  gem 'database_cleaner-active_record'
-  gem 'database_cleaner-redis'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -73,4 +69,3 @@ gem 'enum_help'
 # kaminari
 gem 'kaminari', '~> 0.17.0'
 gem 'kaminari-bootstrap', '~> 3.0.1'
-

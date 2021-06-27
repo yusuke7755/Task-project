@@ -9,8 +9,6 @@
   background-color:#ffffffc7;
   border: 2px solid black;
   border-radius: 6px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 
@@ -40,7 +38,7 @@ body {
   padding: 0;
   min-height: 100vh;
   color: #182956;
- 
+  
 }
  textarea {
   width: 350px;
@@ -51,29 +49,6 @@ body {
 #form-controll{
   width: 200px;
 }
-.field_with_errors {
-  display: inline;
-  text-align:center;
-  margin-left: auto;
-  margin-right: auto;
-}
-#error_explanation {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-footer{
-  width: 100%;
-  background-color: #89c7de;
-  color: #fff;
-  text-align: center;
-  padding: 2px 0;
-
-position: absolute;/*←絶対位置*/
-  bottom: 0; /*下に固定*/
-}
-
-
 .field_with_errors {
   display: inline;
   text-align:center;

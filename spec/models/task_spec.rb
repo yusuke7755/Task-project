@@ -1,59 +1,67 @@
 require 'rails_helper'
 
-describe 'タスクモデル機能', type: :model do
+describe 'バリデーションのテスト' do
 
-  #step1 step2 step3
-  describe 'バリデーションのテスト' do
-    context 'タスクのタイトルが空の場合' do
-      it 'バリデーションにひっかる' do
-        task = Task.new(title: '', content: '失敗テスト')
-        expect(task).not_to be_valid
-      end
+    before do
+      # 「一覧画面に遷移した場合」や「タスクが作成日時の降順に並んでいる場合」など、contextが実行されるタイミングで、before内のコードが実行される
+      visit tasks_path
     end
-    context 'タスクの詳細が空の場合' do
-      it 'バリデーションにひっかかる' do
-        task = Task.new(title: '失敗テスト', content: '')
-        expect(task).not_to be_valid
-      end
-    end
-
-    context 'タスクのタイトルと詳細に内容が記載されている場合' do
-      it 'バリデーションが通る' do
-        task = Task.new(title: '成功テスト', content: '成功', deadline: '2021/06/25', status: 'completed', priority: 'high' )
-        expect(task).to be_valid
-      end
-    end
-  end
-
-  #Step3
   describe '検索機能' do
-    let!(:task) { FactoryBot.create(:task, title: 'task1', status: 'not_yet', priority: 'high' ) }
-    let!(:second_task) { FactoryBot.create(:second_task, title: 'test2', status: 'in_progress', priority: 'middle' ) }
-    let!(:third_task) { FactoryBot.create(:second_task, title: 'sample3', status: 'completed', priority: 'low' ) }
-
-    context 'scopeメソッドでタイトルのあいまい検索をした場合' do
-      it "検索キーワードを含むタスクが絞り込まれる" do
-        expect(Task.title_search('task')).to include(task)
-        expect(Task.title_search('task')).not_to include(second_task)
-        expect(Task.title_search('task').count).to eq 1
+    before do
+      # 必要に応じて、テストデータの内容を変更して構わない
+      FactoryBot.create(:task, name: "task")
+      FactoryBot.create(:second_task, name:"test")
+      FactoryBot.create(:third_task, name: "task3")
+    end
+    context 'タイトルであいまい検索をした場合' do
+      it "検索キーワードを含むタスクで絞り込まれる" do
+        visit tasks_path
+        # タスクの検索欄に検索ワードを入力する (例: task)
+        fill_in 'task_name', with: 'task'
+        # 検索ボタンを押す
+        click_on '検索' 
+        expect(page).to have_content 'task'
       end
     end
-    context 'scopeメソッドでステータス検索をした場合' do
+    context 'ステータス検索をした場合' do
       it "ステータスに完全一致するタスクが絞り込まれる" do
-        expect(Task.status_search('not_yet')).to include(task)
-        expect(Task.status_search('not_yet')).not_to include(second_task)
-        expect(Task.status_search('not_yet').count).to eq 1
+        visit tasks_path
+        # ここに実装する プルダウンを選択する「select」について調べてみること
+        select "未着手", from: "task_status"
+        click_on '検索'
+        expect(page).to have_content '未着手'
       end
     end
-    context 'scopeメソッドでタイトルのあいまい検索とステータス検索をした場合' do
+    context 'タイトルのあいまい検索とステータス検索をした場合' do
       it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
-        expect(Task.title_search('task')).to include(task)
-        expect(Task.status_search('not_yet')).to include(task)
-        expect(Task.title_search('task').count).to eq 1
-        expect(Task.status_search('not_yet').count).to eq 1
+        visit tasks_path
+        # ここに実装する
+        fill_in 'task_name', with: 'test'
+        select "未着手", from: "task_status"
+        click_on '検索'
+        expect(page).to have_content 'test'
+        expect(page).to have_content '未着手'
       end
     end
   end
+
+  #context 'タスクのタイトルが空の場合' do
+    #it 'バリデーションにひっかる' do
+      #task = Task.new(title: '', content: '失敗テスト')
+      #expect(task).not_to be_valid
+    #end
+  #end
+　#context 'タスクの詳細が空の場合' do
+    #it 'バリデーションにひっかかる' do
+      #task = Task.new(title: '失敗テスト', content: '')
+      #expect(task).not_to be_valid
+    #end
+  #end
+  #context 'タスクのタイトルと詳細に内容が記載されている場合' do
+    #it 'バリデーションが通る' do
+      #task = Task.new(title: '成功テスト', content: '成功するよ')
+      #expect(task).to be_valid
+    #end
+  #end
 
 end
-

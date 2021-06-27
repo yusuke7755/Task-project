@@ -16,24 +16,24 @@ FactoryBot.define do
     factory :task do
       title { 'タイトル１' }
       content { 'コンテント１' }
-      status {2}
-      priority {1}
+      status {'completed'}
+      priority {'high'}
       deadline { DateTime.now }
     end
     # 作成するテストデータの名前を「second_task」とします
     factory :second_task, class: Task do
       title { 'タイトル２' }
       content { 'コンテント２' }
-      status {0}
-      priority {2}
+      status {'not_yet'}
+      priority {'middle'}
       deadline { DateTime.tomorrow }
     end
 
     factory :third_task, class: Task do
       title { 'タイトル3' }
       content { 'コンテント3' }
-      status {1}
-      priority {3}
+      status {'in_progress'}
+      priority {'low'}
       deadline { DateTime.now.since(5.days) }
     end  
 
