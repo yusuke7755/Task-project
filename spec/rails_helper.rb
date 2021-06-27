@@ -37,7 +37,47 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  #config.use_transactional_fixtures = true
+
+  config.use_transactional_fixtures = false
+
+  except_tables = %w(tasks)
+
+  config.before(:suite) do
+    # db/seeds.rbでblog_categoriesテーブルのデータを設定
+    load Rails.root.join('db', 'seeds.rb')
+    DatabaseCleaner.clean_with(:truncation, except: except_tables)
+  end
+
+  config.before(:example) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:example, js: true) do
+    DatabaseCleaner.strategy = :truncation, {except: except_tables}
+  end
+
+  config.before(:example) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:example) do
+    DatabaseCleaner.clean
+  end
+
+  ## スマホ版のfeature specを書く場合などは以下の設定もしておく
+  config.before(:example, type: :mobile) do
+    Capybara.current_driver = :mobile_client
+  end
+
+  config.after(:example, type: :mobile) do
+    Capybara.use_default_driver
+  end
+
+
+
+
+
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false

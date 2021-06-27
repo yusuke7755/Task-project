@@ -18,6 +18,18 @@ RSpec.configure do |config|
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
   
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+
     #headless_chromeのno-sandboxオプション」を追加する
     config.before(:each) do |example|
       if example.metadata[:type] == :system
@@ -27,6 +39,8 @@ RSpec.configure do |config|
         end
       end
     end
+
+
 
 
   config.expect_with :rspec do |expectations|
