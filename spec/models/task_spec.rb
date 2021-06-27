@@ -27,9 +27,9 @@ describe 'タスクモデル機能', type: :model do
 
   #Step3
   describe '検索機能' do
-    let!(:task) { FactoryBot.create(:task, title: 'task', status: 0, priority: 1 ) }
-    let!(:second_task) { FactoryBot.create(:second_task, title: 'test2', status: 1, priority: 2 ) }
-    let!(:third_task) { FactoryBot.create(:second_task, title: 'sample3', status: 2, priority: 3 ) }
+    let!(:task) { FactoryBot.create(:task, title: 'task1', status: 'not_yet', priority: 'high' ) }
+    let!(:second_task) { FactoryBot.create(:second_task, title: 'test2', status: 'in_progress', priority: 'middle' ) }
+    let!(:third_task) { FactoryBot.create(:second_task, title: 'sample3', status: 'completed', priority: 'low' ) }
 
     context 'scopeメソッドでタイトルのあいまい検索をした場合' do
       it "検索キーワードを含むタスクが絞り込まれる" do
@@ -40,16 +40,17 @@ describe 'タスクモデル機能', type: :model do
     end
     context 'scopeメソッドでステータス検索をした場合' do
       it "ステータスに完全一致するタスクが絞り込まれる" do
-        expect(Task.status_search(1)).to include(task)
-        expect(Task.status_search(1)).not_to include(second_task)
-        expect(Task.status_search(1).count).to eq 1
+        expect(Task.status_search('not_yet')).to include(task)
+        expect(Task.status_search('not_yet')).not_to include(second_task)
+        expect(Task.status_search('not_yet').count).to eq 1
       end
     end
     context 'scopeメソッドでタイトルのあいまい検索とステータス検索をした場合' do
       it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
-
-        expect(Task.title_status_search('task',1)).to include(task)
-        expect(Task.title_status_search('task').count).to eq 1
+        expect(Task.title_search('task')).to include(task)
+        expect(Task.status_search('not_yet')).to include(task)
+        expect(Task.title_search('task').count).to eq 1
+        expect(Task.status_search('not_yet').count).to eq 1
       end
     end
   end
