@@ -17,8 +17,8 @@ RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
-  
-    #headless_chromeのno-sandboxオプション」を追加する
+
+  #headless_chromeのno-sandboxオプション」を追加する
     config.before(:each) do |example|
       if example.metadata[:type] == :system
         driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]  do |options|
@@ -27,7 +27,6 @@ RSpec.configure do |config|
         end
       end
     end
-
 
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`

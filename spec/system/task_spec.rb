@@ -1,73 +1,110 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
 
-
-
   describe '新規作成機能' do
+
     context 'タスクを新規作成した場合' do
       it '作成したタスクが表示される' do
+        visit new_task_path
+        fill_in "task_title", with: 'title'
+        fill_in "task_content", with: 'content'
+        select '高', from: 'task[priority]'
+        fill_in 'deadline', with: '2021/06/25'
+        select '未着手', from: 'task_status'
+        click_button '登録する'
+        visit tasks_path
+        expect(page).to have_content '未着手'
       end
     end
+
   end
+
   describe '一覧表示機能' do
+
     context '一覧画面に遷移した場合' do
       it '作成済みのタスク一覧が表示される' do
-        task = FactoryBot.create(:task, name: 'task')
-        task = FactoryBot.create(:second_task, name: 'task2')
+        task = FactoryBot.create(:task, title: 'task', deadline: '2020/06/25', status: 'not_yet', priority: 'middle' )
         visit tasks_path
-        task_list= all('.task_list')
-        # visitした（遷移した）page（タスク一覧ページ）に「task」という文字列が
-        # have_contentされているか（含まれているか）ということをexpectする（確認・期待する）
-        expect(page).to have_content 'task'
-        expect(page).to_not have_content 'Factoryで作ったデフォルトのコンテント3'
-        expect(page).to have_content 'Factoryで作ったデフォルトのコンテント２'
-        # expectの結果が true ならテスト成功、false なら失敗として結果が出力される                
+        expect(page).to have_content '着手中'
       end
     end
-    #テストで内容を追加 issues#2
+
+  end
     context 'タスクが作成日時の降順に並んでいる場合' do
-      it '新しいタスクが一番上に表示される' do
-        task = FactoryBot.create(:task, name: 'task')
-        task = FactoryBot.create(:second_task, name: 'task2')
-        task = FactoryBot.create(:third_task, name: 'task3')
+      it '降順に表示される' do
+        Task.create(title: '1', content: 'context1', deadline: '2020/12/11', status: 'not_yet', priority: 'middle' )
+        Task.create(title: '2', content: 'context2', deadline: '2020/12/11', status: 'not_yet', priority: 'middle' )
+        Task.create(title: '3', content: 'context3', deadline: '2020/12/11', status: 'not_yet', priority: 'middle' )
         visit tasks_path
-        task_list= all('.task_list')
-        save_and_open_page
-        expect(task_list[0]).to have_content 'task3'
-        expect(task_list[1]).to have_content 'task2'
-        expect(task_list[2]).to have_content 'task'     
+        expect(Task.order("created_at DESC").map(&:title)).to eq ["3", "2", "1"]
       end
     end
 
+    context '終了期限でソートした場合' do
+      it 'タスクが終了期限順に並んでいる' do
+        Task.create(title: '1', content: 'context1', deadline: '2020/11/30', status: 'not_yet', priority: 'middle' )
+        Task.create(title: '2', content: 'context2', deadline: '2020/11/29', status: 'not_yet', priority: 'middle' )
+        Task.create(title: '3', content: 'context3', deadline: '2020/11/28', status: 'not_yet', priority: 'middle' )
+        visit tasks_path
+        click_on "sort_deadline"
+        visit tasks_path(sort_expired: "true")
+        visit tasks_path
+        expect(Task.order("deadline DESC").map(&:title)).to eq ["1", "2", "3"]
+      end
+    end
 
-  #describe '一覧表示機能' do
+    describe '詳細表示機能' do
+      context '任意のタスク詳細画面に遷移した場合' do
+        it '該当タスクの内容が表示される' do
+          @task = FactoryBot.create(:task,title: 'task1',content: 'content1', deadline: '2020/11/30', status: 'not_yet', priority: 'middle' )
+          visit task_path(@task)
+          expect(page).to have_content 'task1'
+          expect(page).to have_content 'content1'
+        end
+      end
+    end
+   
+     describe '検索機能' do
+      before do
+        FactoryBot.create(:task, title: "task101", deadline: '2021/06/30', status: 'not_yet', priority: 'middle' )
+        FactoryBot.create(:second_task, title: "test100", deadline: '2021/06/30', status: 'completed', priority: 'middle' )
+      end
+      context 'タイトルであいまい検索をした場合' do
+        it "検索キーワードを含むタスクで絞り込まれる" do
+          visit tasks_path
+          fill_in 'search_word', with: 'task'
+          click_on '検索'
+          expect(page).to have_content 'task'
+        end
+      end
+   
+      context 'ステータス検索をした場合' do
+        it "ステータスに完全一致するタスクが絞り込まれる" do
+          visit tasks_path
+          select "未着手", from: "search_status"
+          click_on '検索'
+          expect(page).to have_content '未着手'
+        end
+      end
+   
+      context 'タイトルのあいまい検索とステータス検索をした場合' do
+        it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
+          visit tasks_path
+          fill_in 'search_word', with: 'task'
+          select "未着手", from: "search_status"
+          click_on '検索'
+          expect(page).to have_content 'task'
+          expect(page).to have_content '未着手'
+        end
+      end
+     end
 
-    #context '一覧画面に遷移した場合' do
-      #it '作成済みのタスク一覧が表示される' do
-        # テストで使用するためのタスクを作成
-        #task = FactoryBot.create(:task, title: 'task')
-        # タスク一覧ページに遷移
-       # visit tasks_path
-        # タスク一覧ページに遷移できているかを確認
-       # current_path
-        # タスクがデータベースに作成されているかを確認
-       # Task.count
-        # 表示するHTMLにタスク情報が入っているかを確認
-       # page.html
-       # expect(page).to have_content 'task'
-      #end
-    #end
-
-      # テスト内容を追加で記載する
-    #context 'タスクが作成日時の降順に並んでいる場合' do
-      #it '新しいタスクが一番上に表示される' do
-        # タスク一覧を配列として取得するため、View側でidを振っておく
-        #task_list = all('.task_row')
-        #expect(task_list[0]).to have_content 'タイトル２'
-        #expect(task_list[1]).to have_content 'タイトル１'
-      #end
-    #end
-
-  #end
 
 end
+
+
+
+
+
+
+
