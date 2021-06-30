@@ -8,6 +8,8 @@ class Task < ApplicationRecord
   enum status: { not_yet: 0, in_progress: 1, completed: 2 }
   enum priority: { high: 1, middle: 2, low: 3 }
   
+  belongs_to :user
+  
   scope :search_tasks, ->(pr) {
     if pr[:word].present? && pr[:status].present?
       title_status_search(pr[:word], pr[:status])

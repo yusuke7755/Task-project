@@ -13,6 +13,13 @@ ja:
           status: ステータス
           priotity: 優先順位
           deadline: 終了期限
+        user:
+          name: 名前
+          email: メールアドレス
+          current_password: 現在のパスワード
+          password: パスワード
+          password_confirmation: 確認用パスワード
+          remember_me: ログインを記憶
   # 全てのmodelで共通して使用するattributesを定義
   attributes:
     created_at: 作成日
