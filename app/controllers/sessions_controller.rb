@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       flash[:notice] = "ログインに成功しました。"
       # 管理者画面とユーザー画面の分岐
-      if user.admin = "admin"
+      if user.admin = true
         redirect_to admin_users_path(user.id)  #管理者画面
       else
         redirect_to user_path(user.id)    #ユーザー画面

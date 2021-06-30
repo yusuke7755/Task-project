@@ -1,4 +1,4 @@
-<h1><%= @user.name %>のページ</h1>
+<h4><%= @user.name %>のページ</h4>
 <p>メールアドレス: <%= @user.email %></p>
 <table class="col-md-12">
   <thead>
@@ -26,6 +26,5 @@
         <td id = 'task_delete'><%= link_to '削除', task, method: :delete, data: { confirm: '削除しますか?' } %></td>
       </tr>
     <% end %>
-     <%= paginate @tasks %>
   </tbody>
 </table>

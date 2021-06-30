@@ -26,14 +26,12 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
+    if @users.update(user_params)
       redirect_to admin_users_path, notice: "ユーザー情報を変更しました。"
     else
       render :edit
     end
-    #else
-    #  redirect_to admin_users_path, notice: "最低1ユーザーは管理者権限を持つ必要があります。"
-    #end
+
   end
 
   def destroy

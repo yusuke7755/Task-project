@@ -6,7 +6,6 @@ class TasksController < ApplicationController
   PER = 5
   # GET /tasks or /tasks.json
   def index
-    
     @tasks = current_user.tasks
     if params[:sort_expired]
 			@tasks = @tasks.order(deadline: :desc).page(params[:page]).per(PER)
