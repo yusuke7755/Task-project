@@ -23,6 +23,7 @@
   <thead>
     <tr>
       <th class="col-md-2">タスク</th>
+      <th class="col-md-2">作成者</th>
       <th class="col-md-3" >詳細</th>
       <th class="col-md-2">期限</th>
       <th class="col-md-1">ステータス</th>
@@ -36,6 +37,7 @@
     <% @tasks.each do |task| %>
       <tr>
         <td id = 'task_list' ><%= task.title %></td>
+        <td><%= task.user.name %></td>
         <td><%= task.content %></td>
         <td><%= task.deadline %></td>
         <td><%= task.status_i18n %></td>

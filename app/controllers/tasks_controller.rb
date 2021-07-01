@@ -1,11 +1,11 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: %i[ show edit update destroy ]
-  before_action :login_required, only:[:index, :new, :show, :edit, :update, :destroy]
-  before_action :login_require
+  #before_action :set_task, only: %i[ show edit update destroy ]
+  before_action :current_user, only:[:index, :new, :show, :edit, :update, :destroy]
 
   PER = 5
   # GET /tasks or /tasks.json
   def index
+    binding.pry
     @tasks = current_user.tasks
     if params[:sort_expired]
 			@tasks = @tasks.order(deadline: :desc).page(params[:page]).per(PER)
@@ -71,9 +71,9 @@ class TasksController < ApplicationController
 
   private
   # Use callbacks to share common setup or constraints between actions.
-  def set_task
-    @task = Task.find(params[:id])
-  end
+  #def set_task
+    #@task = Task.find(params[:id])
+  #end
 
   # Only allow a list of trusted parameters through.
   def task_params

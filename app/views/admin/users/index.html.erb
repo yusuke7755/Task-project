@@ -25,7 +25,7 @@
           <td>一般</td>
         <% end %>
         <td><%= user.tasks.count %></td>
-        <td><%= link_to 'ユーザー情報', admin_user_path(user), id: "users_admin_show" %></td>
+        <td><%= link_to '情報', admin_user_path(user), id: "users_admin_show" %></td>
         <td><%= link_to '編集', edit_admin_user_path(user), id: "users_admin_index_edit" %></td>
         <td class="user_row"><%= link_to '削除', admin_user_path(user.id), id: "users_admin_index_delete", method: :delete, data:{ confirm: "本当に削除してよろしいですか？" } %></td>
       </tr>
