@@ -9,28 +9,14 @@ class Task < ApplicationRecord
   enum priority: { high: 1, middle: 2, low: 3 }
   
   belongs_to :user
+  #binding.pry
   
-  scope :search_tasks, ->(pr) {
-    if pr[:word].present? && pr[:status].present?
-      title_status_search(pr[:word], pr[:status])
-    elsif pr[:word].present?
-      title_search(pr[:word])
-    elsif pr[:status].present?
-      status_search(pr[:status])
-    end
+  scope :title_search, -> (title) {
+    where("title LIKE ?","%#{ title }%")
   }
 
-  scope :title_status_search, ->(wd, st) {
-    tasks = Task.where("title LIKE ?", "%#{wd}%")
-    @tasks = tasks.where(status: st)
-  }
-
-  scope :title_search, ->(wd) {
-    @tasks = Task.where("title LIKE ?", "%#{wd}%")
-  }
-
-  scope :status_search, ->(st) {
-    @tasks = Task.where(status: st)
+  scope :status_search, -> (status) {
+    where(status: status)
   }
 
 end

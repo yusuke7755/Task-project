@@ -1,22 +1,42 @@
 class TasksController < ApplicationController
-  #before_action :set_task, only: %i[ show edit update destroy ]
-  before_action :current_user, only:[:index, :new, :show, :edit, :update, :destroy]
+    before_action :current_user, only:[:index, :new, :show, :edit, :update, :destroy]
 
-  PER = 5
+  # PER = 5
   # GET /tasks or /tasks.json
   def index
-    binding.pry
     @tasks = current_user.tasks
-    if params[:sort_expired]
-			@tasks = @tasks.order(deadline: :desc).page(params[:page]).per(PER)
-    elsif params[:sort_priority_high]
-      @tasks = @tasks.order(priority: :asc).page(params[:page]).per(PER)
-    elsif params[:search]
-      @tasks = Task.search_tasks(params[:search]).page(params[:page]).per(PER)
-    else
-      @tasks = @tasks.order(created_at: :desc).page(params[:page]).per(PER)
+    @tasks = @tasks.order(deadline: :desc) if params[:sort_expired]
+    @tasks = @tasks.order(priority: :asc) if params[:sort_priority_high]
+
+    if params[:search].present?
+      @tasks = @tasks.title_search(params[:search][:title]) if params[:search][:title].present?
+      @tasks = @tasks.status_search(params[:search][:status]) if params[:search][:status].present?
     end
+
+    @tasks = @tasks.page(params[:page]).per(5)
   end
+
+    # #if params[:search].present?
+    #   #binding.pry
+    #   #if params[:search][:title].present? && params[:search][:status].present?
+    #     #両方title and statusが成り立つ検索結果を返す
+    #     #@tasks = @tasks.title_search(params[:search][:title])
+    #     @tasks = @tasks.status_search(params[:search][:status])
+        
+    #     #渡されたパラメータがtask titleのみだったとき
+    #   elsif params[:search][:title].present?
+    #     @tasks = @tasks.title_search(params[:search][:title])
+      
+    #    #渡されたパラメータがステータスのみだったとき
+    #   elsif params[:search][:status].present?
+    #     @tasks = @tasks.status_search(params[:search][:status])
+       
+    #     #推しただけ
+    #   #elsif params[:title].present=nil && params[:status].present=nil
+    #    # @tasks = @tasks.order(created_at: :desc).page(params[:page]).per(PER)
+    #   end
+    # end
+    #end
 
   # GET /tasks/1 or /tasks/1.json
   def show

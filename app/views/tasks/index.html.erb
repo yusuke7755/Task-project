@@ -3,12 +3,12 @@
 <div class = "container-fluid">
   <ul class="row">
     <%= form_with(scope: :search, local: true, url: tasks_path, method: :get) do |form| %>
-      <li  id ="title" ><%= form.label :word, 'タスク名:', class:'ml-5' %><li/>
-      <li><%= form.text_field :word %><li/>
+      <li><%= form.label :title, 'タスク名:', class:'ml-5' %><li/>
+      <li  id ="title" ><%= form.text_field :title %><li/>
       <li><%= form.label :status, 'ステータス:', class:'ml-5'%><li/>
-      <li ><%= form.select  :status, [["未着手", "0"], ["着手中", "1"], ["完了", "2"]], include_blank: '選択してください' %><li/>
+      <li id ="status"><%= form.select  :status, [["未着手", "0"], ["着手中", "1"], ["完了", "2"]], include_blank: '選択してください' %><li/>
       <br>
-      <li id= "search"><button type="button" class="btn btn-dark" ><%= form.submit '検索', class:'ml-3' %></button><li/>
+      <li id= "search"><button type="button" class="btn btn-dark" ><%= form.submit '検索', class:'ml-3'  %></button><li/>
     <% end %>
   </ul>
 </div>

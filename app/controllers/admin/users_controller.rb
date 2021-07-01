@@ -1,5 +1,6 @@
 class Admin::UsersController < ApplicationController
   before_action :set_user, only:[:index, :new, :create, :show, :edit, :update, :destroy]
+  #skip_before_action :validate_last_admin , only: [:update, :destroy]
  
   def index
     @users = User.all.includes(:tasks)  
