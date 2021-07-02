@@ -76,9 +76,6 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    database_cleaner-redis (2.0.0)
-      database_cleaner-core (~> 2.0.0)
-      redis
     diff-lcs (1.4.4)
     enum_help (0.0.17)
       activesupport (>= 3.0.0)
@@ -164,7 +161,6 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (4.3.1)
     regexp_parser (2.1.1)
     rspec-core (3.10.1)
       rspec-support (~> 3.10.0)
@@ -245,8 +241,6 @@ DEPENDENCIES
   capybara (>= 2.15)
   coffee-rails (~> 4.2)
   database_cleaner
-  database_cleaner-active_record
-  database_cleaner-redis
   enum_help
   factory_bot_rails
   faker
