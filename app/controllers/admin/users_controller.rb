@@ -1,9 +1,9 @@
 class Admin::UsersController < ApplicationController
-  before_action :set_user, only:[:index, :new, :create, :show, :edit, :update, :destroy]
-  #skip_before_action :validate_last_admin , only: [:update, :destroy]
- 
+  before_action :set_user, only: [:edit, :update, :destroy, :show]
+  before_action :require_admin
+
   def index
-    @users = User.all.includes(:tasks)  
+    @users = User.all.includes(:tasks) #N+1問題
   end
 
   def new
@@ -20,7 +20,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def show
-
+    @tasks = @user.tasks
   end
 
   def edit
@@ -32,22 +32,30 @@ class Admin::UsersController < ApplicationController
     else
       render :edit
     end
-
   end
 
   def destroy
     if @user.destroy
       redirect_to admin_users_path, notice: "ユーザーを削除しました。"
     else
-      redirect_to admin_users_path #, notice: "最低1ユーザーは管理者権限を持つ必要があります。"
+      redirect_to admin_users_path
     end
   end
 
   private
+
   def user_params
-    params.require(:user).permit(:id, :name,:email,:password, :password_confirmation,:admin)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin)
   end
+
   def set_user
     @user = User.find(params[:id])
   end
+
+  def require_admin
+    if current_user.nil? || !current_user.admin?
+      redirect_to tasks_path, notice: "管理者以外はアクセスできません。"
+    end
+  end
+
 end

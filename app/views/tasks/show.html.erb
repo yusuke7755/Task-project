@@ -20,8 +20,3 @@
   <strong>終了期限:</strong>
   <%= @task.deadline %>
 </p>
-
-  <p>
-  <button type="button" class="btn btn-info btn-sm" id="sort_deadline"><%=  link_to '編集', edit_task_path(@task) %></button>
-  <button type="button" class="btn btn-info btn-sm" id="sort_priority"><%= link_to '戻る', tasks_path %></button>
-  </p>

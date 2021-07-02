@@ -44,7 +44,7 @@
         <h4><%= current_user.name %>としてログイン中</h4>
         <% if current_user.admin? %>
           <button type="button" class="btn btn-warning"><%= link_to "管理者用ユーザ一覧", admin_users_path %></button>
-          <button type="button" class="btn btn-warning"><%= link_to "管理者用ユーザ一作成", new_admin_user_path %></button>
+          <button type="button" class="btn btn-warning"><%= link_to "管理者用ユーザ一作成", new_admin_user_path , id: "users_admin_new_link" %></button>
         <% end %>
       <% end %> 
     

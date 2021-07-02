@@ -31,8 +31,8 @@
       <p><%= form.label :password_confirmation %></p>
       <p><%= form.password_field :password_confirmation %></p>
     </div>
-  
+    
   <p><%= form.submit "更新する" %></p>
 <% end %>
 
-<%= link_to "マイページに戻る", user_path(current_user.id) %>
+<button type="button" class="btn btn-info btn-sm"><%= link_to "マイページに戻る", user_path(current_user.id) %></button>
