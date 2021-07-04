@@ -19,6 +19,7 @@ FactoryBot.define do
       status {2}
       priority {1}
       deadline { DateTime.now }
+      association :user
     end
     # 作成するテストデータの名前を「second_task」とします
     factory :second_task, class: Task do
@@ -27,6 +28,7 @@ FactoryBot.define do
       status {0}
       priority {2}
       deadline { DateTime.tomorrow }
+      association :user
     end
 
     factory :third_task, class: Task do
@@ -35,6 +37,7 @@ FactoryBot.define do
       status {1}
       priority {3}
       deadline { DateTime.now.since(5.days) }
+      association :user
     end  
 
 end
